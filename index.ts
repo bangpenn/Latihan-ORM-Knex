@@ -28,16 +28,16 @@ app.get('/', (_, res: Response) => {
 
 // Endpoint untuk menampilkan semua artikel
 app.get('/articles', async (_, res: Response) => {
+    try {
+        const articles = await ArticleModel.query().withGraphFetched('comments');
 
-    try{
-        const articles = await ArticleModel.query()
-        res.json({ data: articles })
+        res.json({ data: articles });
     } catch (error) {
         console.error('Error fetching articles:', error);
         res.status(500).json({ error: 'Error fetching articles' });
     }
-    
 })
+
 
 
 // Endpoint untuk menampilkan satu artikel berdasarkan ID
